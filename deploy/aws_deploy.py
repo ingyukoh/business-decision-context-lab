@@ -1,7 +1,7 @@
 """Run in authenticated AWS CloudShell. Creates isolated, tagged demo resources.
 No access keys are exported. Logs exclude payloads. Default no idle compute cost.
 """
-import boto3, json, time, subprocess, pathlib, base64, zipfile, io
+import boto3, json, time, subprocess, pathlib, base64, zipfile, io, os
 from botocore.exceptions import ClientError
 R='us-east-1'; NAME='business-decision-lab-20261006'; ROOT=pathlib.Path(__file__).resolve().parents[1]
 ACCOUNT=boto3.client('sts').get_caller_identity()['Account']
@@ -33,10 +33,11 @@ mr=role(modelname+'-role'); gr=role(gatewayname+'-role',[
 try:ecr.create_repository(repositoryName=NAME,imageScanningConfiguration={'scanOnPush':True},tags=[{'Key':k,'Value':v} for k,v in TAGS.items()])
 except ecr.exceptions.RepositoryAlreadyExistsException:pass
 registry=f'{ACCOUNT}.dkr.ecr.{R}.amazonaws.com'; uri=registry+'/'+NAME+':20261006'
-auth=ecr.get_authorization_token()['authorizationData'][0]; user,password=base64.b64decode(auth['authorizationToken']).decode().split(':',1)
-subprocess.run(['docker','login','--username',user,'--password-stdin',registry],input=password.encode(),check=True)
-subprocess.run(['docker','build','--platform','linux/amd64','-f','deploy/Dockerfile','-t',uri,'.'],cwd=ROOT,check=True)
-subprocess.run(['docker','push',uri],check=True)
+if not os.environ.get('SKIP_BUILD'):
+    auth=ecr.get_authorization_token()['authorizationData'][0]; user,password=base64.b64decode(auth['authorizationToken']).decode().split(':',1)
+    subprocess.run(['docker','login','--username',user,'--password-stdin',registry],input=password.encode(),check=True)
+    subprocess.run(['docker','build','--platform','linux/amd64','-f','deploy/Dockerfile','-t',uri,'.'],cwd=ROOT,check=True)
+    subprocess.run(['docker','push',uri],check=True)
 print('IMAGE_PUSHED',flush=True)
 def deploy(n,args):
     try:lam.get_function(FunctionName=n)
