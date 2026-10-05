@@ -40,6 +40,6 @@ class GatewayTests(unittest.TestCase):
     def test_non_boolean_context_rejected(self):
         self.assertEqual(gateway.handler(event(data={'inputs':{'TV':1,'radio':2,'newspaper':3},'include_context':'yes'}),None)['statusCode'],422)
     def test_get_routes(self):
-        for p in ['/','/style.css','/app.js','/health','/api/report','/api/examples']:
+        for p in ['/','/style.css','/app.js','/health','/api/report','/api/remediation','/api/aws-verification','/api/examples']:
             e={'rawPath':p,'requestContext':{'http':{'method':'GET'}}};self.assertEqual(gateway.handler(e,None)['statusCode'],200)
 if __name__=='__main__':unittest.main()

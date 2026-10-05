@@ -84,7 +84,7 @@ def handler(event, lambda_context):
     began = time.perf_counter();_began=began
     req = event.get('requestContext', {}).get('http', {})
     method = req.get('method', 'GET'); path = event.get('rawPath', '/')
-    _log_context={'request_id':getattr(lambda_context,'aws_request_id','local'),'route':path if path in ('/','/app.js','/style.css','/health','/api/model-health','/api/report','/api/remediation','/api/examples','/api/analyze','/api/predict') else 'unknown'}
+    _log_context={'request_id':getattr(lambda_context,'aws_request_id','local'),'route':path if path in ('/','/app.js','/style.css','/health','/api/model-health','/api/report','/api/remediation','/api/aws-verification','/api/examples','/api/analyze','/api/predict') else 'unknown'}
     if method=='GET':
         if path=='/': return response(200, (ROOT/'docs/aws.html').read_text(), 'text/html; charset=utf-8')
         if path=='/app.js': return response(200, (ROOT/'docs/app.js').read_text(), 'text/javascript; charset=utf-8')
@@ -95,7 +95,8 @@ def handler(event, lambda_context):
               'claude':'configured; inference establishes readiness' if os.environ.get('BEDROCK_MODEL_ID') else 'pending AWS account agreement; no Claude results claimed',
               'numeric_prediction':'available independently'})
         if path=='/api/remediation':return response(200,json.loads((ROOT/'results/remediation-report.json').read_text()))
-        if path=='/api/report': return response(200, json.loads((ROOT/'results/report.json').read_text()))
+        if path=='/api/report': return response(200, {'report_status':'historical_only; keyword validation retired',**json.loads((ROOT/'results/report.json').read_text())})
+        if path=='/api/aws-verification':return response(200,json.loads((ROOT/'results/aws-remediation-verification.json').read_text()))
         if path=='/api/examples': return response(200, [{'label':'Held-out row 176: within marginal ranges','inputs':{'TV':276.9,'radio':48.9,'newspaper':41.8}}, {'label':'Row 128: deliberate wrong-unit fallback demonstration','inputs':{'TV':80.2,'radio':0,'newspaper':9.2}}, {'label':'Illustrative out-of-range scenario','inputs':{'TV':500,'radio':80,'newspaper':100}}])
         return response(404, {'error':'Not found'})
     if method!='POST' or path not in ('/api/predict','/api/analyze'):
