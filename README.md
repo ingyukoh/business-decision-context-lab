@@ -77,6 +77,9 @@ Databricks-specific prior implementation: none established in inspected record.
 
 ## AWS live demonstration
 
+Public, no access code: https://gvk2rzatfezmfj5rk6givmxgue0vsrto.lambda-url.us-east-1.on.aws/
+
+
 The dedicated AWS deployment uses a public HTTPS Lambda Function URL, a small
 numeric gateway, and a preloaded CPU model container on an isolated EC2 host. The browser page
 supports three examples and bounded custom numeric scenarios, actual Qwen
