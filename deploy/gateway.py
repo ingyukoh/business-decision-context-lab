@@ -1,5 +1,7 @@
 """Public bounded numeric work sample; private model invocation through scoped IAM."""
 import base64, json, os, time, uuid
+import http.client
+from urllib.parse import urlsplit
 from datetime import datetime, timezone
 from pathlib import Path
 from lab import ROOT, predict, context, reviewed_output
@@ -11,7 +13,24 @@ def response(status, data, mime='application/json'):
     h = {**HEADERS, 'content-type': mime}
     return {'statusCode': status, 'headers': h, 'body': json.dumps(data, allow_nan=False) if mime=='application/json' else data}
 
+def private_http(path, payload=None):
+    u=urlsplit(os.environ['MODEL_HTTP_URL'])
+    if u.scheme!='http' or not u.hostname.startswith('10.42.0.') or u.port!=8080:
+        raise RuntimeError('Only isolated private model address is allowed')
+    c=http.client.HTTPConnection(u.hostname,u.port,timeout=3)
+    try:
+        c.connect();c.sock.settimeout(70)
+        body=json.dumps(payload).encode() if payload is not None else None
+        c.request('POST' if body else 'GET',path,body=body,headers={'Content-Type':'application/json'})
+        r=c.getresponse()
+        if r.status!=200:raise RuntimeError('Private model unavailable')
+        b=r.read(32769)
+        if len(b)>32768:raise RuntimeError('Private response exceeds limit')
+        return json.loads(b)
+    finally:c.close()
+
 def model_invoke(payload):
+    if os.environ.get('MODEL_HTTP_URL'):return private_http('/analyze',payload)
     import boto3
     from botocore.config import Config
     c = boto3.client('lambda', config=Config(read_timeout=190, retries={'max_attempts': 0}))
@@ -47,6 +66,9 @@ def handler(event, lambda_context):
         if path=='/app.js': return response(200, (ROOT/'docs/app.js').read_text(), 'text/javascript; charset=utf-8')
         if path=='/style.css': return response(200, (ROOT/'docs/style.css').read_text(), 'text/css; charset=utf-8')
         if path=='/health': return response(200, {'status':'ok', 'mode':'independent read-only prototype', 'model_readiness':'checked by /api/analyze; gateway health does not establish model health'})
+        if path=='/api/model-health':
+            try:return response(200,private_http('/health'))
+            except Exception:return response(503,{'status':'unavailable','numeric_prediction':'available independently'})
         if path=='/api/report': return response(200, json.loads((ROOT/'results/report.json').read_text()))
         if path=='/api/examples': return response(200, [{'label':'Held-out row 176: within marginal ranges','inputs':{'TV':276.9,'radio':48.9,'newspaper':41.8}}, {'label':'Held-out row 128: zero radio, review required','inputs':{'TV':80.2,'radio':0,'newspaper':9.2}}, {'label':'Illustrative out-of-range scenario','inputs':{'TV':500,'radio':80,'newspaper':100}}])
         return response(404, {'error':'Not found'})

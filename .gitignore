@@ -3,3 +3,5 @@ __pycache__/
 .pytest_cache/
 model/
 *.log
+
+results/aws-ec2-state.json
