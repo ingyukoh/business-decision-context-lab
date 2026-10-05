@@ -14,7 +14,7 @@ def response(status, data, mime='application/json'):
 def model_invoke(payload):
     import boto3
     from botocore.config import Config
-    c = boto3.client('lambda', config=Config(read_timeout=100, retries={'max_attempts': 0}))
+    c = boto3.client('lambda', config=Config(read_timeout=190, retries={'max_attempts': 0}))
     r = c.invoke(FunctionName=os.environ['MODEL_FUNCTION'], Payload=json.dumps(payload).encode())
     if r.get('FunctionError'):
         raise RuntimeError('Private model error')

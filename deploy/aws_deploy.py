@@ -53,7 +53,7 @@ def deploy(n,args):
         conf={k:v for k,v in args.items() if k not in ('Code','PackageType','Architectures')}
         lam.update_function_configuration(FunctionName=n,**conf);lam.get_waiter('function_updated_v2').wait(FunctionName=n)
     lam.put_function_concurrency(FunctionName=n,ReservedConcurrentExecutions=1 if n==modelname else 2)
-deploy(modelname,dict(PackageType='Image',Code={'ImageUri':uri},Role=mr,MemorySize=4096,Timeout=100,Architectures=['x86_64'],EphemeralStorage={'Size':512}))
+deploy(modelname,dict(PackageType='Image',Code={'ImageUri':uri},Role=mr,MemorySize=6144,Timeout=180,Architectures=['x86_64'],EphemeralStorage={'Size':512}))
 buf=io.BytesIO()
 with zipfile.ZipFile(buf,'w',zipfile.ZIP_DEFLATED) as z:
     for p in [ROOT/'lab.py',ROOT/'deploy/gateway.py']:
@@ -61,13 +61,13 @@ with zipfile.ZipFile(buf,'w',zipfile.ZIP_DEFLATED) as z:
     for folder in ['data','results','docs']:
         for p in (ROOT/folder).rglob('*'):
             if p.is_file() and p.suffix in ('.csv','.json','.html','.js','.css'): z.write(p,str(p.relative_to(ROOT)))
-deploy(gatewayname,dict(PackageType='Zip',Code={'ZipFile':buf.getvalue()},Role=gr,Runtime='python3.12',Handler='gateway.handler',MemorySize=256,Timeout=110,Environment={'Variables':{'MODEL_FUNCTION':modelname,'QUOTA_TABLE':quota}}))
+deploy(gatewayname,dict(PackageType='Zip',Code={'ZipFile':buf.getvalue()},Role=gr,Runtime='python3.12',Handler='gateway.handler',MemorySize=256,Timeout=200,Environment={'Variables':{'MODEL_FUNCTION':modelname,'QUOTA_TABLE':quota}}))
 try:url=lam.create_function_url_config(FunctionName=gatewayname,AuthType='NONE',InvokeMode='BUFFERED')['FunctionUrl']
 except lam.exceptions.ResourceConflictException:url=lam.get_function_url_config(FunctionName=gatewayname)['FunctionUrl']
 # Current Function URLs require both URL and function invoke grants, limited to this URL.
 for sid,action,kw in [('public-demo-url','lambda:InvokeFunctionUrl',{'FunctionUrlAuthType':'NONE'}),('public-demo-url-invoke','lambda:InvokeFunction',{'InvokedViaFunctionUrl':True})]:
     try:lam.add_permission(FunctionName=gatewayname,StatementId=sid,Action=action,Principal='*',**kw)
     except lam.exceptions.ResourceConflictException:pass
-state={'region':R,'project':NAME,'gateway':gatewayname,'model':modelname,'image':uri,'url':url,'model_memory_mb':4096,'model_reserved_concurrency':1,'gateway_reserved_concurrency':2,'log_retention_days':7,'quota_table':quota,'daily_generation_limit':100}
+state={'region':R,'project':NAME,'gateway':gatewayname,'model':modelname,'image':uri,'url':url,'model_memory_mb':6144,'model_reserved_concurrency':1,'gateway_reserved_concurrency':2,'log_retention_days':7,'quota_table':quota,'daily_generation_limit':100}
 (ROOT/'results/aws-resource-state.json').write_text(json.dumps(state,indent=2))
 print('DEPLOYMENT_COMPLETE '+json.dumps(state),flush=True)
