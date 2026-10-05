@@ -6,6 +6,8 @@ def event(path='/api/predict', data=None, **kw):
     x={'requestContext':{'http':{'method':'POST'},'domainName':'demo.on.aws'},'rawPath':path,'headers':{'content-type':'application/json'},'body':json.dumps(data or {'inputs':{'TV':276.9,'radio':48.9,'newspaper':41.8}})}
     x.update(kw);return x
 class GatewayTests(unittest.TestCase):
+    def setUp(self):
+        p=patch.object(gateway,"cached_result",return_value=None);p.start();self.addCleanup(p.stop)
     def test_predict_frozen_result(self):
         r=gateway.handler(event(),None);x=json.loads(r['body']);self.assertEqual(r['statusCode'],200);self.assertAlmostEqual(x['prediction']['prediction'],24.71035127235);self.assertEqual(len(x['tool_trace']),2)
     def test_no_text_or_injection(self):
