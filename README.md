@@ -20,21 +20,22 @@ Public ISL Advertising data: 200 cross-sectional observations. SHA256 and disjoi
 OLS test RMSE is 1.9761, versus 5.8287 for the training-mean baseline
 on 40 test rows, in thousands of units. This is not time-series or causal ROI.
 
-Four actual CPU generations used frozen Qwen/Qwen2.5-0.5B-Instruct,
-494,032,768 parameters, greedy decoding, no fine-tuning here.
-The first two predefined test rows each ran with and without semantic context.
-One contextual output said "6.64 million units" instead of thousands: it fails
-validation and the displayed result falls back to exact numeric facts.
-The other contextual output passed narrow number/unit/caveat checks.
-Neither output without context passed. Two examples per condition do not
-establish general improvement. Raw outputs, prompts and 4.42–12.12 second local
-generation times remain in results/report.json. A validator revision accepted
-"thousand units" as synonymous; no generation was changed or retried.
+Revision 2 fixes a failed review boundary: the retired keyword validator accepted
+15 crafted harmful instructions that contained the expected number, unit and a
+caveat keyword. The new policy rejects arbitrary prose for the main display.
+Numbers, units and narrative come from code; raw model output stays untrusted.
+Structured metadata must match an exact seven-field schema and trusted tools.
 
-Passing checks is not complete semantic certification. Every response requires
-human review. Training bounds are marginal only; they do not establish joint
-support. No Claude/GPT runtime, Databricks deployment, client data, production
-users or commercial impact is established by this lab.
+The fixed adversarial suite rejects all 30 invalid/malicious probes and accepts
+all ten valid controls. This measures the closed display policy, not general
+model safety. Twenty actual AWS Qwen generations across ten held-out rows are
+reported separately in results/remediation-report.json. The original four local
+generations and old check results remain in results/report.json as history.
+Claude on Bedrock is prepared but account activation is pending; there are zero
+measured Claude cases and no model comparison claim.
+
+The dataset is cross-sectional and training ranges are marginal. A real client
+forecast needs temporal validation and its own accepted business metric.
 
 ## Reproduce and serve
 
@@ -80,27 +81,25 @@ Databricks-specific prior implementation: none established in inspected record.
 Public, no access code: https://gvk2rzatfezmfj5rk6givmxgue0vsrto.lambda-url.us-east-1.on.aws/
 
 
-The dedicated AWS deployment uses a public HTTPS Lambda Function URL, a small
-numeric gateway, and a preloaded CPU model container on an isolated EC2 host. The browser page
-supports three examples and bounded custom numeric scenarios, actual Qwen
-generation, raw output inspection, semantic relationships, checks and fallback.
-It is a fixed read-only workflow; the standalone MCP server is a separate stdio
-integration, not an autonomous HTTP agent. Run `python test_mcp_live.py` to inspect
-the actual MCP protocol connection and calls.
+The gateway serves three cached actual Qwen examples, including a deliberately
+wrong-unit fallback case. Cached recordings bypass model quotas and busy states.
+Custom inputs get fresh numeric predictions and code-composed summaries; the
+idle Qwen EC2 host is stopped. Claude structured generation awaits AWS account
+activation, scoped access and a managed-runtime network path.
 
-The model base revision is pinned to
-7ae557604adf67be50417f59c2c2f167def9a775. No adapter is used here.
-Runtime parameter count and process peak memory are measured in the model
-service. Browser round-trip timing is distinct from model compute timing.
-There is no calibrated confidence or commercial ROI claim.
+This uses a small typed graph and fixed read-only orchestration. The separate
+MCP server has two genuine stdio tools (`python test_mcp_live.py`). An autonomous
+agent loop and enterprise Databricks integration remain implementation gaps.
+Qwen base revision: 7ae557604adf67be50417f59c2c2f167def9a775; frozen, no adapter.
+Cached compute times are historical; current browser timings measure retrieval.
 
-Deployment, scoped permissions, quota, costs and cleanup:
-[deploy/README.txt](deploy/README.txt). The public page serves external
-JavaScript/CSS with a same-origin CSP and accepts no user text or arbitrary prompts.
-The quota is 100 generation attempts per UTC day for all visitors together;
-it is not a comprehensive account-wide spending limit.
-
-Meaningful local checks now include gateway input/origin/payload validation,
-quota fallback, model-unavailable responses, cold/warm cache behavior and retention
-of failed raw generations. Mocked model tests do not constitute AWS inference;
-live measurements are recorded separately after deployment.
+Deploy/stop/resume and cost controls: [deploy/README.txt](deploy/README.txt).
+Run `python evaluate_adversarial.py`, `python build_preset_cache.py`, and tests
+before `python deploy/remediate.py` in the existing authenticated AWS account.
+The remediation preserves the public URL, stops only this model host and avoids
+accepting any new model-provider agreement. Retained EBS/ECR storage is estimated
+at about $1.75/month plus request/log use, compared with about $60/month running.
+Live provider calls, once enabled, use a five/day source-network quota and
+100/day global fuse; presets and numeric tools remain independent. App logs
+exclude inputs/model text. A 1 KiB request-body limit applies after AWS receives
+an upload, rather than controlling client upload time.

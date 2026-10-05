@@ -1,0 +1,225 @@
+{
+  "policy": "Immutable cached actual generation; gateway revalidates and recomputes display.",
+  "entries": {
+    "[\"qwen\",[276.9,48.9,41.8],true]": {
+      "raw_model_output": "The TV advertising campaign predicted sales by 24.71 thousand units, but this is an association-only model with no direct causal relationship to optimal budget establishment.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 13.934017611999934,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[80.2,0.0,9.2],true]": {
+      "raw_model_output": "The TV advertising campaign has predicted sales of approximately 6.64 million units, but this is based solely on association and does not establish a causal relationship with optimal budget or ROI.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 14.46071386299991,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[276.9,48.9,41.8],false]": {
+      "raw_model_output": "The TV channel has predicted 276.9 viewers, the radio station has predicted 48.9 viewers, and the newspaper has predicted 41.8 viewers. The prediction is accurate at 24.71%. However, this prediction does not provide information on the actual viewership numbers of each medium.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 15.898261515000286,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[80.2,0.0,9.2],false]": {
+      "raw_model_output": "The TV channel has an average rating of 6.64 out of 10, followed by the radio at 0.0 and the newspaper at 9.2.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 9.795145949000016,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[228.0,37.7,32.0],true]": {
+      "raw_model_output": "The TV advertising campaign predicted sales by 228 thousand units, but this is an association-only model with no direct causal relationship to optimal budget establishment.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 13.45234240200034,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[228.0,37.7,32.0],false]": {
+      "raw_model_output": "The TV channel has predicted 228.0 viewers, the radio station has predicted 37.7 viewers, and the newspaper has predicted 32.0 viewers. The prediction is accurate at 20.39%. However, there may be limitations to this prediction as it does not account for factors such as weather conditions, cultural events, or specific programming schedules.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 17.605020547000095,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[17.2,4.1,31.6],true]": {
+      "raw_model_output": "The TV advertising campaign has predicted sales at 4.7 thousand units, but association alone does not establish an optimal budget or cause for investment.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 13.10525370700043,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[17.2,4.1,31.6],false]": {
+      "raw_model_output": "The TV channel's performance is at the 4th prediction level, with radio at the 5th and newspaper at the 6th. This suggests that while there may be room for improvement in television, radio and newspapers have more consistent success levels compared to other channels.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 13.478300600999773,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[5.4,29.9,9.4],true]": {
+      "raw_model_output": "The TV advertising prediction is 8.85 million units, but association alone does not establish an optimal budget or cause sales growth.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 12.565663958000187,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[5.4,29.9,9.4],false]": {
+      "raw_model_output": "The TV channel's predicted rating of 8.85 is based on the given input data and does not represent an actual rating.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 8.041143796000142,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[90.4,0.3,23.2],true]": {
+      "raw_model_output": "The TV advertising campaign predicted sales by 7.23 thousand units, but this is an association-only model and no causal ROI or optimal budget has been established.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 13.81454138800018,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[90.4,0.3,23.2],false]": {
+      "raw_model_output": "The TV channel's performance is at the 7th percentile, indicating it has received lower ratings than average across all categories. The radio station's performance is at the 1st percentile, suggesting it has received lower ratings than average in this category.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 12.586316499000077,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[296.4,36.3,100.9],true]": {
+      "raw_model_output": "The TV advertising prediction is 23.55 million units, but association alone does not establish an optimal budget or cause sales growth.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 13.288636010999653,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[296.4,36.3,100.9],false]": {
+      "raw_model_output": "The TV channel has predicted 296.4% of its target audience, while radio and newspaper predictions have been lower at 36.3% and 100.9%, respectively.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 11.000098245000117,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[206.8,5.2,19.4],true]": {
+      "raw_model_output": "The TV advertising campaign predicted sales by 13.33 thousand units, but this is an association-only model and no causal ROI or optimal budget has been established.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 14.062351029000183,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[206.8,5.2,19.4],false]": {
+      "raw_model_output": "The TV channel has predicted 13.33% of viewers, while the radio station's prediction is 5.2%.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 8.15137585399998,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[7.3,28.1,41.4],true]": {
+      "raw_model_output": "The TV advertising prediction is 8.77, but association alone does not establish a causal ROI or optimal budget. The sales data from the cross-sectional observation shows thousands of units, which may be influenced by other factors such as market trends and consumer behavior.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 17.661971356999857,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[7.3,28.1,41.4],false]": {
+      "raw_model_output": "The TV channel's prediction of 8.77 is based on the given input data and does not represent an accurate prediction. The radio channel's prediction of 28.1 is also based on the provided information but may be influenced by other factors. The newspaper channel's prediction of 41.4 is also available but could vary depending on various factors such as audience demographics and content relevance.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 17.939780451999923,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[220.5,33.2,37.9],true]": {
+      "raw_model_output": "The TV advertising campaign predicted sales by 19.25 thousand units, but this is an association-only model with no direct causal relationship to optimal budget establishment.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 13.893539261000114,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[220.5,33.2,37.9],false]": {
+      "raw_model_output": "The TV channel has predicted 19.25% of viewers, while the radio station's prediction is 33.2%.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 8.379273597000065,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-20-case-2026-10-06.json"
+    },
+    "[\"qwen\",[500.0,80.0,100.0],true]": {
+      "raw_model_output": "The TV advertising prediction is based on cross-sectional observations and does not establish an optimal budget or ROI. The sales unit in the data represents thousands of units, which may vary depending on market conditions and other factors.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 15.393938257000173,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-out-of-range-2026-10-06.json"
+    },
+    "[\"qwen\",[500.0,80.0,100.0],false]": {
+      "raw_model_output": "The predicted increase in TV viewership is 40.78%.",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "parameters": 494032768,
+      "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "fine_tuned": false,
+      "compute_seconds": 5.766186606999327,
+      "recorded_at": "2026-10-06",
+      "recording_source": "results/qwen-out-of-range-2026-10-06.json"
+    }
+  }
+}

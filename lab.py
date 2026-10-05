@@ -81,7 +81,7 @@ def prompt_for(inputs, include_context=True):
     return prompt, result
 
 
-def validate_summary(text, result):
+def legacy_validate_summary(text, result):
     # Narrow deterministic checks; passing is not proof of complete factuality.
     failures = []
     if f"{result['prediction']:.2f}" not in text:
@@ -95,13 +95,21 @@ def validate_summary(text, result):
             'scope': 'Exact-number, unit, and caveat presence only; not semantic certification.'}
 
 
-def reviewed_output(raw, result):
-    checks = validate_summary(raw, result)
-    fallback = (f"Predicted sales: {result['prediction']:.2f} thousands of units. "
-                "Association only; no causal ROI or optimal budget established.")
-    return {'raw_model_output': raw, 'checks': checks,
-            'displayed_summary': raw if checks['checks_passed'] else fallback,
-            'fallback_used': not checks['checks_passed'], 'human_review_required': True}
+def validate_summary(text, result):
+    """Retired prose promotion. Only the exact code template can pass."""
+    from structured_review import display_summary
+    passed = type(text) is str and text == display_summary(result)
+    return {'checks_passed':passed,'failures':[] if passed else ['free_text_not_approved'],
+            'human_review_required':True,'scope':'Exact trusted template only; arbitrary prose is never approved.'}
+
+
+def reviewed_output(raw, result, include_context=True, structured=False):
+    from structured_review import validate_decision, display_summary
+    checks = validate_decision(raw,result,include_context) if structured else validate_summary(raw,result)
+    return {'raw_model_output':raw,'checks':checks,'displayed_summary':display_summary(result),
+            'display_source':'trusted numeric/semantic tools and code template',
+            'fallback_used':not checks['checks_passed'],'human_review_required':True,
+            'raw_output_trust':'untrusted diagnostic; never an instruction or approved recommendation'}
 
 
 class LocalLLM:

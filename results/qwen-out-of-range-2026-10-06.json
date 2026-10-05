@@ -1,0 +1,289 @@
+{
+  "cases": [
+    {
+      "payload": {
+        "inputs": {
+          "TV": 500,
+          "radio": 80,
+          "newspaper": 100
+        },
+        "include_context": true
+      },
+      "response": {
+        "status": "ok",
+        "prediction": {
+          "prediction": 40.78427974976873,
+          "metric": "sales",
+          "unit": "thousands of units",
+          "within_marginal_training_bounds": false,
+          "review_required": true,
+          "limitation": "Marginal ranges are not joint support or causal evidence."
+        },
+        "raw_model_output": "The TV advertising prediction is based on cross-sectional observations and does not establish an optimal budget or ROI. The sales unit in the data represents thousands of units, which may vary depending on market conditions and other factors.",
+        "checks": {
+          "checks_passed": false,
+          "failures": [
+            "prediction_number_missing",
+            "sales_unit_missing",
+            "association_limitation_missing"
+          ],
+          "human_review_required": true,
+          "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+        },
+        "displayed_summary": "Predicted sales: 40.78 thousands of units. Association only; no causal ROI or optimal budget established.",
+        "fallback_used": true,
+        "human_review_required": true,
+        "model": "Qwen/Qwen2.5-0.5B-Instruct",
+        "parameters": 494032768,
+        "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "fine_tuned": false,
+        "cold_model_load": false,
+        "compute_seconds": 15.393938257000173,
+        "peak_process_memory_mib": 3221.9765625,
+        "generation_mode": "live greedy generation; max 110 new tokens",
+        "serving": "preloaded container on isolated EC2",
+        "startup_model_load_seconds": 7.147895884000036,
+        "semantic_context": [
+          {
+            "subject": "advertising",
+            "relation": "source",
+            "object": "https://www.statlearning.com/s/Advertising.csv"
+          },
+          {
+            "subject": "advertising",
+            "relation": "structure",
+            "object": "Cross-sectional observations; not time-series forecasting."
+          },
+          {
+            "subject": "ols",
+            "relation": "limitation",
+            "object": "Association only; no causal ROI or optimal budget established."
+          },
+          {
+            "subject": "ols",
+            "relation": "trained_on",
+            "object": "advertising"
+          },
+          {
+            "subject": "sales",
+            "relation": "predicted_by",
+            "object": "ols"
+          },
+          {
+            "subject": "sales",
+            "relation": "source",
+            "object": "https://www.statlearning.com/s/Advertising.csv"
+          },
+          {
+            "subject": "sales",
+            "relation": "unit",
+            "object": "thousands of units"
+          }
+        ],
+        "tool_trace": [
+          {
+            "tool": "predict_sales",
+            "result": {
+              "prediction": 40.78427974976873,
+              "metric": "sales",
+              "unit": "thousands of units",
+              "within_marginal_training_bounds": false,
+              "review_required": true,
+              "limitation": "Marginal ranges are not joint support or causal evidence."
+            }
+          },
+          {
+            "tool": "metric_context",
+            "result": [
+              {
+                "subject": "advertising",
+                "relation": "source",
+                "object": "https://www.statlearning.com/s/Advertising.csv"
+              },
+              {
+                "subject": "advertising",
+                "relation": "structure",
+                "object": "Cross-sectional observations; not time-series forecasting."
+              },
+              {
+                "subject": "ols",
+                "relation": "limitation",
+                "object": "Association only; no causal ROI or optimal budget established."
+              },
+              {
+                "subject": "ols",
+                "relation": "trained_on",
+                "object": "advertising"
+              },
+              {
+                "subject": "sales",
+                "relation": "predicted_by",
+                "object": "ols"
+              },
+              {
+                "subject": "sales",
+                "relation": "source",
+                "object": "https://www.statlearning.com/s/Advertising.csv"
+              },
+              {
+                "subject": "sales",
+                "relation": "unit",
+                "object": "thousands of units"
+              }
+            ]
+          },
+          {
+            "tool": "private_qwen_generation",
+            "status": "completed",
+            "context_in_prompt": true
+          }
+        ],
+        "gateway_seconds": 15.547670769000035,
+        "workflow": "fixed read-only orchestration, not autonomous tool selection"
+      },
+      "https_seconds": 16.376345874974504
+    },
+    {
+      "payload": {
+        "inputs": {
+          "TV": 500,
+          "radio": 80,
+          "newspaper": 100
+        },
+        "include_context": false
+      },
+      "response": {
+        "status": "ok",
+        "prediction": {
+          "prediction": 40.78427974976873,
+          "metric": "sales",
+          "unit": "thousands of units",
+          "within_marginal_training_bounds": false,
+          "review_required": true,
+          "limitation": "Marginal ranges are not joint support or causal evidence."
+        },
+        "raw_model_output": "The predicted increase in TV viewership is 40.78%.",
+        "checks": {
+          "checks_passed": false,
+          "failures": [
+            "sales_unit_missing",
+            "association_limitation_missing"
+          ],
+          "human_review_required": true,
+          "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+        },
+        "displayed_summary": "Predicted sales: 40.78 thousands of units. Association only; no causal ROI or optimal budget established.",
+        "fallback_used": true,
+        "human_review_required": true,
+        "model": "Qwen/Qwen2.5-0.5B-Instruct",
+        "parameters": 494032768,
+        "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "fine_tuned": false,
+        "cold_model_load": false,
+        "compute_seconds": 5.766186606999327,
+        "peak_process_memory_mib": 3221.9765625,
+        "generation_mode": "live greedy generation; max 110 new tokens",
+        "serving": "preloaded container on isolated EC2",
+        "startup_model_load_seconds": 7.147895884000036,
+        "semantic_context": [
+          {
+            "subject": "advertising",
+            "relation": "source",
+            "object": "https://www.statlearning.com/s/Advertising.csv"
+          },
+          {
+            "subject": "advertising",
+            "relation": "structure",
+            "object": "Cross-sectional observations; not time-series forecasting."
+          },
+          {
+            "subject": "ols",
+            "relation": "limitation",
+            "object": "Association only; no causal ROI or optimal budget established."
+          },
+          {
+            "subject": "ols",
+            "relation": "trained_on",
+            "object": "advertising"
+          },
+          {
+            "subject": "sales",
+            "relation": "predicted_by",
+            "object": "ols"
+          },
+          {
+            "subject": "sales",
+            "relation": "source",
+            "object": "https://www.statlearning.com/s/Advertising.csv"
+          },
+          {
+            "subject": "sales",
+            "relation": "unit",
+            "object": "thousands of units"
+          }
+        ],
+        "tool_trace": [
+          {
+            "tool": "predict_sales",
+            "result": {
+              "prediction": 40.78427974976873,
+              "metric": "sales",
+              "unit": "thousands of units",
+              "within_marginal_training_bounds": false,
+              "review_required": true,
+              "limitation": "Marginal ranges are not joint support or causal evidence."
+            }
+          },
+          {
+            "tool": "metric_context",
+            "result": [
+              {
+                "subject": "advertising",
+                "relation": "source",
+                "object": "https://www.statlearning.com/s/Advertising.csv"
+              },
+              {
+                "subject": "advertising",
+                "relation": "structure",
+                "object": "Cross-sectional observations; not time-series forecasting."
+              },
+              {
+                "subject": "ols",
+                "relation": "limitation",
+                "object": "Association only; no causal ROI or optimal budget established."
+              },
+              {
+                "subject": "ols",
+                "relation": "trained_on",
+                "object": "advertising"
+              },
+              {
+                "subject": "sales",
+                "relation": "predicted_by",
+                "object": "ols"
+              },
+              {
+                "subject": "sales",
+                "relation": "source",
+                "object": "https://www.statlearning.com/s/Advertising.csv"
+              },
+              {
+                "subject": "sales",
+                "relation": "unit",
+                "object": "thousands of units"
+              }
+            ]
+          },
+          {
+            "tool": "private_qwen_generation",
+            "status": "completed",
+            "context_in_prompt": false
+          }
+        ],
+        "gateway_seconds": 5.907066640000039,
+        "workflow": "fixed read-only orchestration, not autonomous tool selection"
+      },
+      "https_seconds": 6.626530542038381
+    }
+  ]
+}

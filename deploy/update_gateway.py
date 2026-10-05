@@ -3,7 +3,7 @@ import boto3,io,zipfile,pathlib
 P='business-decision-lab-20261006';ROOT=pathlib.Path(__file__).resolve().parents[1]
 b=io.BytesIO()
 with zipfile.ZipFile(b,'w',zipfile.ZIP_DEFLATED) as z:
-    for p in [ROOT/'lab.py',ROOT/'deploy/gateway.py']:z.write(p,p.name)
+    for p in [ROOT/'lab.py',ROOT/'structured_review.py',ROOT/'deploy/gateway.py',ROOT/'deploy/bedrock_provider.py']:z.write(p,p.name)
     for folder in ['docs','data','results']:
         for p in (ROOT/folder).rglob('*'):
             if p.is_file() and p.suffix in ('.json','.csv','.html','.js','.css') and not p.name.endswith('state.json'):z.write(p,str(p.relative_to(ROOT)))
