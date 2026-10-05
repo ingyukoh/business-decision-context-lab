@@ -74,3 +74,30 @@ baseline; define metric/unit/ownership semantics; evaluate frontier-model
 summaries and tool trajectories on held-out business cases; deliver prediction
 API, source-linked explanations, review gates and reproducible evaluation.
 Databricks-specific prior implementation: none established in inspected record.
+
+## AWS live demonstration
+
+The dedicated AWS deployment uses a public HTTPS Lambda Function URL, a small
+numeric gateway, and a privately invoked CPU model container. The browser page
+supports three examples and bounded custom numeric scenarios, actual Qwen
+generation, raw output inspection, semantic relationships, checks and fallback.
+It is a fixed read-only workflow; the standalone MCP server is a separate stdio
+integration, not an autonomous HTTP agent. Run `python test_mcp_live.py` to inspect
+the actual MCP protocol connection and calls.
+
+The model base revision is pinned to
+7ae557604adf67be50417f59c2c2f167def9a775. No adapter is used here.
+Runtime parameter count and process peak memory are measured in the model
+function. Browser round-trip timing is distinct from model compute timing.
+There is no calibrated confidence or commercial ROI claim.
+
+Deployment, scoped permissions, quota, costs and cleanup:
+[deploy/README.txt](deploy/README.txt). The public page serves external
+JavaScript/CSS with a same-origin CSP and accepts no user text or arbitrary prompts.
+The quota is 100 generation attempts per UTC day for all visitors together;
+it is not a comprehensive account-wide spending limit.
+
+Meaningful local checks now include gateway input/origin/payload validation,
+quota fallback, model-unavailable responses, cold/warm cache behavior and retention
+of failed raw generations. Mocked model tests do not constitute AWS inference;
+live measurements are recorded separately after deployment.
