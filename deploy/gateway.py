@@ -1,5 +1,6 @@
 """Public bounded numeric work sample; private model invocation through scoped IAM."""
 import base64, json, os, time, uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from lab import ROOT, predict, context, reviewed_output
 HEADERS = {'content-type': 'application/json', 'cache-control': 'no-store',
@@ -18,6 +19,24 @@ def model_invoke(payload):
     if r.get('FunctionError'):
         raise RuntimeError('Private model error')
     return json.load(r['Payload'])
+
+def claim_generation_slot():
+    """Atomic global daily quota; stores UTC day/count only, never user identity."""
+    if not os.environ.get('QUOTA_TABLE'): return True  # local tests only
+    import boto3
+    from botocore.exceptions import ClientError
+    day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    try:
+        boto3.client('dynamodb').update_item(TableName=os.environ['QUOTA_TABLE'],
+            Key={'day':{'S':day}},
+            UpdateExpression='SET expires_at = if_not_exists(expires_at, :expiry) ADD #n :one',
+            ConditionExpression='attribute_not_exists(#n) OR #n < :limit',
+            ExpressionAttributeNames={'#n':'calls'},
+            ExpressionAttributeValues={':one':{'N':'1'},':limit':{'N':'100'},':expiry':{'N':str(int(time.time())+259200)}})
+        return True
+    except ClientError as e:
+        if e.response['Error']['Code']=='ConditionalCheckFailedException': return False
+        raise
 
 def handler(event, lambda_context):
     began = time.perf_counter()
@@ -56,6 +75,9 @@ def handler(event, lambda_context):
     trace = [{'tool':'predict_sales','result':p}, {'tool':'metric_context','result':context()}]
     if path=='/api/predict': return response(200, {'prediction':p,'semantic_context':context(),'tool_trace':trace})
     try:
+        if not claim_generation_slot():
+            return response(429, {'status':'unavailable','error':'Shared demo daily generation limit reached. Numeric prediction remains available.',
+                'prediction':p, **reviewed_output('',p), 'tool_trace':trace})
         result = model_invoke(payload)
         if result.get('status')!='ok': raise RuntimeError('Unavailable')
         trace.append({'tool':'private_qwen_generation','status':'completed','context_in_prompt':payload.get('include_context',True)})

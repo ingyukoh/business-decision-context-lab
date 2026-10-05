@@ -17,6 +17,9 @@ class GatewayTests(unittest.TestCase):
     def test_unavailable_model_has_fallback(self):
         with patch.object(gateway,'model_invoke',side_effect=RuntimeError('not logged')):
             r=gateway.handler(event('/api/analyze'),None);x=json.loads(r['body']);self.assertEqual(r['statusCode'],503);self.assertTrue(x['fallback_used']);self.assertIn('24.71',x['displayed_summary'])
+    def test_quota_returns_numeric_fallback(self):
+        with patch.object(gateway,'claim_generation_slot',return_value=False):
+            r=gateway.handler(event('/api/analyze'),None);self.assertEqual(r['statusCode'],429);self.assertTrue(json.loads(r['body'])['fallback_used'])
     def test_success_preserves_raw(self):
         with patch.object(gateway,'model_invoke',return_value={'status':'ok','raw_model_output':'wrong output'}):
             r=gateway.handler(event('/api/analyze'),None);self.assertEqual(r['statusCode'],200);self.assertEqual(json.loads(r['body'])['raw_model_output'],'wrong output')
