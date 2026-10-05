@@ -1,21 +1,16 @@
-"""Explicit cleanup for only the isolated Oct 6 business demo.
-Disable access without deleting evidence: python cleanup.py --disable
-Delete deployment resources: python cleanup.py --delete
-Local/GitHub project and evaluation artifacts remain intact.
-"""
-import argparse,boto3
+"""Reversible stop/start for this isolated demo. No permanent deletion."""
+import argparse,json,pathlib,boto3
 P='business-decision-lab-20261006';R='us-east-1'
-a=argparse.ArgumentParser();a.add_argument('--disable',action='store_true');a.add_argument('--delete',action='store_true');args=a.parse_args()
-if args.disable==args.delete:a.error('Choose exactly --disable or --delete')
-l=boto3.client('lambda',region_name=R)
-for n in [P+'-gateway',P+'-model']:
-    if args.disable:l.put_function_concurrency(FunctionName=n,ReservedConcurrentExecutions=0)
-    else:l.delete_function(FunctionName=n)
-if args.delete:
-    # Only this project's registry, daily counters and runtime roles. Keep log groups.
-    boto3.client('ecr',region_name=R).delete_repository(repositoryName=P,force=True)
-    boto3.client('dynamodb',region_name=R).delete_table(TableName=P+'-quota')
-    i=boto3.client('iam')
-    for n in [P+'-gateway-role',P+'-model-role']:
-        i.delete_role_policy(RoleName=n,PolicyName='scoped-demo-runtime');i.delete_role(RoleName=n)
-print('Business demo disabled' if args.disable else 'Business deployment resources deleted; 7-day logs preserved')
+a=argparse.ArgumentParser();g=a.add_mutually_exclusive_group(required=True);g.add_argument('--disable',action='store_true');g.add_argument('--resume',action='store_true');args=a.parse_args()
+e=boto3.client('ec2',region_name=R);l=boto3.client('lambda',region_name=R)
+s=json.loads((pathlib.Path(__file__).resolve().parents[1]/'results/aws-ec2-state.json').read_text())
+assert s['project']==P
+instance=e.describe_instances(InstanceIds=[s['instance_id']])['Reservations'][0]['Instances'][0]
+assert any(t['Key']=='Project' and t['Value']==P for t in instance['Tags'])
+if args.disable:
+    for suffix in ['-gateway','-model']:l.put_function_concurrency(FunctionName=P+suffix,ReservedConcurrentExecutions=0)
+    e.stop_instances(InstanceIds=[s['instance_id']]);print('Stopped demo compute. EBS/ECR storage charges remain.')
+else:
+    e.start_instances(InstanceIds=[s['instance_id']]);e.get_waiter('instance_running').wait(InstanceIds=[s['instance_id']])
+    l.put_function_concurrency(FunctionName=P+'-gateway',ReservedConcurrentExecutions=2)
+    print('Gateway resumed; wait for /api/model-health ready. Old model Lambda stays disabled.')

@@ -78,7 +78,7 @@ Databricks-specific prior implementation: none established in inspected record.
 ## AWS live demonstration
 
 The dedicated AWS deployment uses a public HTTPS Lambda Function URL, a small
-numeric gateway, and a privately invoked CPU model container. The browser page
+numeric gateway, and a preloaded CPU model container on an isolated EC2 host. The browser page
 supports three examples and bounded custom numeric scenarios, actual Qwen
 generation, raw output inspection, semantic relationships, checks and fallback.
 It is a fixed read-only workflow; the standalone MCP server is a separate stdio
@@ -88,7 +88,7 @@ the actual MCP protocol connection and calls.
 The model base revision is pinned to
 7ae557604adf67be50417f59c2c2f167def9a775. No adapter is used here.
 Runtime parameter count and process peak memory are measured in the model
-function. Browser round-trip timing is distinct from model compute timing.
+service. Browser round-trip timing is distinct from model compute timing.
 There is no calibrated confidence or commercial ROI claim.
 
 Deployment, scoped permissions, quota, costs and cleanup:

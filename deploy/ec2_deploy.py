@@ -72,7 +72,14 @@ with zipfile.ZipFile(b,'w',zipfile.ZIP_DEFLATED) as z:
         for p in (ROOT/folder).rglob('*'):
             if p.is_file() and p.suffix in ('.json','.csv','.html','.js','.css') and not p.name.endswith('state.json'):z.write(p,str(p.relative_to(ROOT)))
 l.update_function_code(FunctionName=P+'-gateway',ZipFile=b.getvalue());l.get_waiter('function_updated_v2').wait(FunctionName=P+'-gateway')
-l.update_function_configuration(FunctionName=P+'-gateway',Timeout=100,VpcConfig={'SubnetIds':[sub],'SecurityGroupIds':[sgl]},Environment={'Variables':{'MODEL_HTTP_URL':state['private_rpc'],'QUOTA_TABLE':P+'-quota'}});l.get_waiter('function_updated_v2').wait(FunctionName=P+'-gateway')
+for attempt in range(4):
+    try:
+        l.update_function_configuration(FunctionName=P+'-gateway',Timeout=100,VpcConfig={'SubnetIds':[sub],'SecurityGroupIds':[sgl]},Environment={'Variables':{'MODEL_HTTP_URL':state['private_rpc'],'QUOTA_TABLE':P+'-quota'}})
+        break
+    except l.exceptions.InvalidParameterValueException:
+        if attempt==3:raise
+        print('WAITING_FOR_IAM_PROPAGATION',flush=True);time.sleep(20)
+l.get_waiter('function_updated_v2').wait(FunctionName=P+'-gateway')
 l.put_function_concurrency(FunctionName=P+'-model',ReservedConcurrentExecutions=0)
 state['public_url']=l.get_function_url_config(FunctionName=P+'-gateway')['FunctionUrl'];statefile.write_text(json.dumps(state,indent=2))
 print('GATEWAY_CONNECTED '+state['public_url'],flush=True)
