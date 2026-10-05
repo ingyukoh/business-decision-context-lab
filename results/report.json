@@ -1,0 +1,173 @@
+{
+  "created": "2026-10-06",
+  "dataset": "https://www.statlearning.com/s/Advertising.csv",
+  "test_n": 40,
+  "baseline_rmse": 5.828703102844674,
+  "ols_rmse": 1.9760530471392825,
+  "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "fine_tuned_in_this_lab": false,
+  "generation": "Actual local CPU causal-LM generation; greedy decoding",
+  "semantic_layer": "SQLite typed triples with recursive source/metric/model traversal",
+  "actions": "Read-only analysis; human review before any external action",
+  "cases": [
+    {
+      "row_id": 128,
+      "context": false,
+      "prompt": "Write two sentences for a business reviewer using only these facts. Include the exact prediction number. Do not recommend spending or claim causation. When definitions or units are absent, say they are unavailable. Describe any stated limitations. Facts: {\"inputs\": {\"TV\": 80.2, \"radio\": 0.0, \"newspaper\": 9.2}, \"prediction\": 6.64}",
+      "prediction": {
+        "prediction": 6.6449569426169015,
+        "metric": "sales",
+        "unit": "thousands of units",
+        "within_marginal_training_bounds": false,
+        "review_required": true,
+        "limitation": "Marginal ranges are not joint support or causal evidence."
+      },
+      "output": "The TV channel has an average rating of 6.64 out of 10, followed by the radio at 0.0 and the newspaper at 9.2.",
+      "latency_seconds": 4.419980957987718,
+      "checks": {
+        "checks_passed": false,
+        "failures": [
+          "sales_unit_missing",
+          "association_limitation_missing"
+        ],
+        "human_review_required": true,
+        "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+      },
+      "reviewed_output": {
+        "raw_model_output": "The TV channel has an average rating of 6.64 out of 10, followed by the radio at 0.0 and the newspaper at 9.2.",
+        "checks": {
+          "checks_passed": false,
+          "failures": [
+            "sales_unit_missing",
+            "association_limitation_missing"
+          ],
+          "human_review_required": true,
+          "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+        },
+        "displayed_summary": "Predicted sales: 6.64 thousands of units. Association only; no causal ROI or optimal budget established.",
+        "fallback_used": true,
+        "human_review_required": true
+      }
+    },
+    {
+      "row_id": 128,
+      "context": true,
+      "prompt": "Write two sentences for a business reviewer using only these facts. Include the exact prediction number. Do not recommend spending or claim causation. When definitions or units are absent, say they are unavailable. Describe any stated limitations. Facts: {\"inputs\": {\"TV\": 80.2, \"radio\": 0.0, \"newspaper\": 9.2}, \"prediction\": 6.64, \"semantic_context\": [{\"subject\": \"advertising\", \"relation\": \"source\", \"object\": \"https://www.statlearning.com/s/Advertising.csv\"}, {\"subject\": \"advertising\", \"relation\": \"structure\", \"object\": \"Cross-sectional observations; not time-series forecasting.\"}, {\"subject\": \"ols\", \"relation\": \"limitation\", \"object\": \"Association only; no causal ROI or optimal budget established.\"}, {\"subject\": \"ols\", \"relation\": \"trained_on\", \"object\": \"advertising\"}, {\"subject\": \"sales\", \"relation\": \"predicted_by\", \"object\": \"ols\"}, {\"subject\": \"sales\", \"relation\": \"source\", \"object\": \"https://www.statlearning.com/s/Advertising.csv\"}, {\"subject\": \"sales\", \"relation\": \"unit\", \"object\": \"thousands of units\"}]}",
+      "prediction": {
+        "prediction": 6.6449569426169015,
+        "metric": "sales",
+        "unit": "thousands of units",
+        "within_marginal_training_bounds": false,
+        "review_required": true,
+        "limitation": "Marginal ranges are not joint support or causal evidence."
+      },
+      "output": "The TV advertising campaign has predicted sales of approximately 6.64 million units, but this is based solely on association and does not establish a causal relationship with optimal budget or ROI.",
+      "latency_seconds": 10.246769665973261,
+      "checks": {
+        "checks_passed": false,
+        "failures": [
+          "sales_unit_missing"
+        ],
+        "human_review_required": true,
+        "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+      },
+      "reviewed_output": {
+        "raw_model_output": "The TV advertising campaign has predicted sales of approximately 6.64 million units, but this is based solely on association and does not establish a causal relationship with optimal budget or ROI.",
+        "checks": {
+          "checks_passed": false,
+          "failures": [
+            "sales_unit_missing"
+          ],
+          "human_review_required": true,
+          "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+        },
+        "displayed_summary": "Predicted sales: 6.64 thousands of units. Association only; no causal ROI or optimal budget established.",
+        "fallback_used": true,
+        "human_review_required": true
+      }
+    },
+    {
+      "row_id": 176,
+      "context": false,
+      "prompt": "Write two sentences for a business reviewer using only these facts. Include the exact prediction number. Do not recommend spending or claim causation. When definitions or units are absent, say they are unavailable. Describe any stated limitations. Facts: {\"inputs\": {\"TV\": 276.9, \"radio\": 48.9, \"newspaper\": 41.8}, \"prediction\": 24.71}",
+      "prediction": {
+        "prediction": 24.710351272350604,
+        "metric": "sales",
+        "unit": "thousands of units",
+        "within_marginal_training_bounds": true,
+        "review_required": true,
+        "limitation": "Marginal ranges are not joint support or causal evidence."
+      },
+      "output": "The TV channel has predicted 276.9 viewers, the radio station has predicted 48.9 viewers, and the newspaper has predicted 41.8 viewers. The prediction is accurate at 24.71%. However, this prediction does not provide information on the actual viewership numbers of each medium.",
+      "latency_seconds": 6.704326624982059,
+      "checks": {
+        "checks_passed": false,
+        "failures": [
+          "sales_unit_missing",
+          "association_limitation_missing"
+        ],
+        "human_review_required": true,
+        "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+      },
+      "reviewed_output": {
+        "raw_model_output": "The TV channel has predicted 276.9 viewers, the radio station has predicted 48.9 viewers, and the newspaper has predicted 41.8 viewers. The prediction is accurate at 24.71%. However, this prediction does not provide information on the actual viewership numbers of each medium.",
+        "checks": {
+          "checks_passed": false,
+          "failures": [
+            "sales_unit_missing",
+            "association_limitation_missing"
+          ],
+          "human_review_required": true,
+          "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+        },
+        "displayed_summary": "Predicted sales: 24.71 thousands of units. Association only; no causal ROI or optimal budget established.",
+        "fallback_used": true,
+        "human_review_required": true
+      }
+    },
+    {
+      "row_id": 176,
+      "context": true,
+      "prompt": "Write two sentences for a business reviewer using only these facts. Include the exact prediction number. Do not recommend spending or claim causation. When definitions or units are absent, say they are unavailable. Describe any stated limitations. Facts: {\"inputs\": {\"TV\": 276.9, \"radio\": 48.9, \"newspaper\": 41.8}, \"prediction\": 24.71, \"semantic_context\": [{\"subject\": \"advertising\", \"relation\": \"source\", \"object\": \"https://www.statlearning.com/s/Advertising.csv\"}, {\"subject\": \"advertising\", \"relation\": \"structure\", \"object\": \"Cross-sectional observations; not time-series forecasting.\"}, {\"subject\": \"ols\", \"relation\": \"limitation\", \"object\": \"Association only; no causal ROI or optimal budget established.\"}, {\"subject\": \"ols\", \"relation\": \"trained_on\", \"object\": \"advertising\"}, {\"subject\": \"sales\", \"relation\": \"predicted_by\", \"object\": \"ols\"}, {\"subject\": \"sales\", \"relation\": \"source\", \"object\": \"https://www.statlearning.com/s/Advertising.csv\"}, {\"subject\": \"sales\", \"relation\": \"unit\", \"object\": \"thousands of units\"}]}",
+      "prediction": {
+        "prediction": 24.710351272350604,
+        "metric": "sales",
+        "unit": "thousands of units",
+        "within_marginal_training_bounds": true,
+        "review_required": true,
+        "limitation": "Marginal ranges are not joint support or causal evidence."
+      },
+      "output": "The TV advertising campaign predicted sales by 24.71 thousand units, but this is an association-only model with no direct causal relationship to optimal budget establishment.",
+      "latency_seconds": 12.124414167017676,
+      "checks": {
+        "checks_passed": true,
+        "failures": [],
+        "human_review_required": true,
+        "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+      },
+      "reviewed_output": {
+        "raw_model_output": "The TV advertising campaign predicted sales by 24.71 thousand units, but this is an association-only model with no direct causal relationship to optimal budget establishment.",
+        "checks": {
+          "checks_passed": true,
+          "failures": [],
+          "human_review_required": true,
+          "scope": "Exact-number, unit, and caveat presence only; not semantic certification."
+        },
+        "displayed_summary": "The TV advertising campaign predicted sales by 24.71 thousand units, but this is an association-only model with no direct causal relationship to optimal budget establishment.",
+        "fallback_used": false,
+        "human_review_required": true
+      }
+    }
+  ],
+  "parameter_count": 494032768,
+  "context_check_passes": 1,
+  "no_context_check_passes": 0,
+  "limits": [
+    "Two examples per generation condition; no general quality or enterprise-scale conclusion.",
+    "Public textbook advertising data, not pet/garden customer data.",
+    "Frozen regression reused from 4 October lab; no causal ROI or time-series performance claimed.",
+    "Small hand-defined semantic layer, not Neo4j, GraphRAG, Databricks or enterprise ontology delivery.",
+    "No GPT/Claude runtime or production users established in this work sample."
+  ],
+  "validator_revision": "Accept synonymous thousand units next to prediction; recorded generations unchanged. Retrospective mechanical checks, not independent quality benchmark."
+}
