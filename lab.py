@@ -114,6 +114,7 @@ class LocalLLM:
         self.model = AutoModelForCausalLM.from_pretrained(path, local_files_only=True,
                                                         torch_dtype=torch.float32)
         self.model.eval()
+        self.parameter_count = sum(p.numel() for p in self.model.parameters())
 
     def generate(self, prompt):
         messages = [{'role': 'system', 'content': 'Summarize evidence faithfully. Never perform external actions.'},

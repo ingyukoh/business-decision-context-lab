@@ -13,7 +13,8 @@ def handler(event, context):
             _model = LocalLLM(os.environ.get('MODEL_PATH', '/var/task/model'))
         raw = _model.generate(prompt)
         return {'status': 'ok', 'prediction': prediction, **reviewed_output(raw, prediction),
-                'model': 'Qwen/Qwen2.5-0.5B-Instruct', 'parameters': 494032768,
+                'model': 'Qwen/Qwen2.5-0.5B-Instruct', 'parameters': _model.parameter_count,
+                'model_revision': '7ae557604adf67be50417f59c2c2f167def9a775',
                 'fine_tuned': False, 'cold_model_load': cold,
                 'compute_seconds': time.perf_counter() - started,
                 'peak_process_memory_mib': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024,
