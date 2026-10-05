@@ -27,7 +27,7 @@ else:
     sgm=tag(e.create_security_group(GroupName=P+'-model',Description='Private model RPC from demo gateway only',VpcId=vid)['GroupId']);sgl=tag(e.create_security_group(GroupName=P+'-gateway',Description='Only model RPC and DynamoDB egress',VpcId=vid)['GroupId'])
     e.authorize_security_group_ingress(GroupId=sgm,IpPermissions=[{'IpProtocol':'tcp','FromPort':8080,'ToPort':8080,'UserIdGroupPairs':[{'GroupId':sgl}]}])
     for sg in [sgm,sgl]:e.revoke_security_group_egress(GroupId=sg,IpPermissions=[{'IpProtocol':'-1','IpRanges':[{'CidrIp':'0.0.0.0/0'}]}])
-    e.authorize_security_group_egress(GroupId=sgm,IpPermissions=[{'IpProtocol':'tcp','FromPort':80,'ToPort':443,'IpRanges':[{'CidrIp':'0.0.0.0/0'}]}])
+    e.authorize_security_group_egress(GroupId=sgm,IpPermissions=[{'IpProtocol':'tcp','FromPort':port,'ToPort':port,'IpRanges':[{'CidrIp':'0.0.0.0/0'}]} for port in (80,443)])
     prefix=e.describe_managed_prefix_lists(Filters=[{'Name':'prefix-list-name','Values':['com.amazonaws.us-east-1.dynamodb']}])['PrefixLists'][0]['PrefixListId']
     e.authorize_security_group_egress(GroupId=sgl,IpPermissions=[{'IpProtocol':'tcp','FromPort':8080,'ToPort':8080,'UserIdGroupPairs':[{'GroupId':sgm}]},{'IpProtocol':'tcp','FromPort':443,'ToPort':443,'PrefixListIds':[{'PrefixListId':prefix}]}])
     endpoint=e.create_vpc_endpoint(VpcId=vid,VpcEndpointType='Gateway',ServiceName='com.amazonaws.us-east-1.dynamodb',RouteTableIds=[rt],TagSpecifications=[{'ResourceType':'vpc-endpoint','Tags':TAG}])['VpcEndpoint']['VpcEndpointId']
@@ -63,6 +63,7 @@ docker run -d --name business-decision-model --restart unless-stopped --memory 6
 e.get_waiter('instance_running').wait(InstanceIds=[instance]);ins=e.describe_instances(InstanceIds=[instance])['Reservations'][0]['Instances'][0];ip=ins['PrivateIpAddress'];state['private_rpc']=f'http://{ip}:8080';statefile.write_text(json.dumps(state,indent=2))
 # Lambda-service ENI access. Explicitly deny these EC2 actions to function code.
 actions=['ec2:CreateNetworkInterface','ec2:DescribeNetworkInterfaces','ec2:DescribeSubnets','ec2:DeleteNetworkInterface','ec2:AssignPrivateIpAddresses','ec2:UnassignPrivateIpAddresses']
+i.put_role_policy(RoleName=P+'-gateway-role',PolicyName='scoped-demo-runtime',PolicyDocument=json.dumps({'Version':'2012-10-17','Statement':[{'Effect':'Allow','Action':['logs:CreateLogStream','logs:PutLogEvents'],'Resource':f'arn:aws:logs:{R}:{A}:log-group:/aws/lambda/{P}-gateway:*'},{'Effect':'Allow','Action':'dynamodb:UpdateItem','Resource':f'arn:aws:dynamodb:{R}:{A}:table/{P}-quota'}]}))
 i.put_role_policy(RoleName=P+'-gateway-role',PolicyName='isolated-vpc-service',PolicyDocument=json.dumps({'Version':'2012-10-17','Statement':[{'Effect':'Allow','Action':actions,'Resource':'*'},{'Effect':'Deny','Action':actions,'Resource':'*','Condition':{'ArnEquals':{'lambda:SourceFunctionArn':f'arn:aws:lambda:{R}:{A}:function:{P}-gateway'}}}]}))
 b=io.BytesIO()
 with zipfile.ZipFile(b,'w',zipfile.ZIP_DEFLATED) as z:
